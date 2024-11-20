@@ -1,3 +1,96 @@
+# Twitter Watch Client for AI16Z/Eliza
+
+A Twitter client component that processes specific tweets and monitors users' timelines. This client is part of the larger Twitter integration for Eliza agents.
+
+## Features
+
+- Process specific tweet IDs once (provided through configuration)
+- Monitor specified Twitter users' timelines for new tweets
+- Rate limit aware with built-in delays
+- Caches last check times to avoid duplicate processing of timeline tweets
+
+## Configuration
+
+Create a `.env` file in your project root with the following required variables:
+
+```env
+# Twitter API Credentials
+TWITTER_API_KEY=your_api_key
+
+# Bot Configuration
+TWITTER_WATCH_TWEETS=tweet_id_1,tweet_id_2,tweet_id_3  # Tweets to process once
+TWITTER_WATCH_USERS=username1,username2,username3      # Users to monitor continuously
+```
+
+### Environment Variables Explained
+
+- `TWITTER_WATCH_TWEETS`: Comma-separated list of tweet IDs that will be processed once
+- `TWITTER_WATCH_USERS`: Comma-separated list of usernames whose timelines you want to continuously monitor
+
+## How It Works
+
+### Tweet Processing
+- Tweet IDs provided in `TWITTER_WATCH_TWEETS` are processed once when the client starts
+- Each tweet is processed through `handleTweet` method which can respond to the tweet based on your agent's configuration
+
+### User Timeline Monitoring
+- For each username in `TWITTER_WATCH_USERS`, the client continuously checks for new tweets
+- Uses a caching system to keep track of the last checked time for each user
+- Only processes new tweets that appear after the last check
+- Monitors are cleaned up properly when users are removed from configuration
+
+## Integration
+
+The watch client is integrated into the main Twitter client in `client-twitter/index.ts`:
+
+```typescript
+import { TwitterWatchClient } from "./watch.ts";
+import { IAgentRuntime, Client } from "@ai16z/eliza";
+
+class TwitterAllClient {
+    watch: TwitterWatchClient;
+    // ... other clients
+
+    constructor(runtime: IAgentRuntime) {
+        this.watch = new TwitterWatchClient(runtime); //check individual tweet ids and a list of users to watch
+        // ... other client initializations
+    }
+}
+```
+
+## Cache Management
+
+The client maintains a cache in the `tweetcache` directory to track:
+- Last checked timestamps for each watched user
+- Timeline processing history
+
+The cache directory is automatically created if it doesn't exist.
+
+## Rate Limiting
+
+The client implements automatic rate limit handling:
+- 1-second delay between processing tweets
+- Uses Twitter API v2 endpoints for efficient rate limit usage
+- Properly formats timestamps to comply with Twitter's API requirements
+
+## Important Notes
+
+- The client uses Twitter API v2
+- Timestamps are stored in ISO format
+- Each user watcher runs independently
+- Timeline monitoring excludes retweets and replies by default
+- Maximum of 10 tweets fetched per user timeline check
+
+## Debugging
+
+Logs are provided for:
+- Watch start/stop events
+- Tweet processing status
+- API errors
+- Cache operations
+
+Check these logs if you need to troubleshoot the client operation.
+
 # Eliza 🤖
 
 <div align="center">
@@ -109,3 +202,4 @@ pnpm install --include=optional sharp
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=ai16z/eliza&type=Date)](https://star-history.com/#ai16z/eliza&Date)
+
