@@ -131,7 +131,7 @@ export async function generateText({
             case ModelProviderName.LLAMACLOUD:
             case ModelProviderName.HYPERBOLIC:
             case ModelProviderName.TOGETHER:
-            case ModelProviderName.Wine: {
+            case ModelProviderName.WINE: {
                 elizaLogger.debug("Initializing OpenAI model.");
                 const openai = createOpenAI({ apiKey, baseURL: endpoint });
 
