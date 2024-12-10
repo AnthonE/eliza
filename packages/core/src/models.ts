@@ -432,6 +432,23 @@ export const models: Models = {
                 settings.HYPERBOLIC_MODEL ||
                 "meta-llama/Meta-Llama-3.1-405-Instruct",
             [ModelClass.IMAGE]: settings.IMAGE_HYPERBOLIC_MODEL || "FLUX.1-dev",
+        }
+    },
+    [ModelProviderName.WINE]: {
+        endpoint: "http://localhost:3000/v1", // Or your default Wine API endpoint
+        settings: {
+            stop: [],
+            maxInputTokens: 4096,  // Adjust based on your model's capabilities
+            maxOutputTokens: 1024,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+            temperature: 0.6,
+        },
+        model: {
+            [ModelClass.SMALL]: "dolphin-2.9-llama3-70b-gguf",  // Your actual model names
+            [ModelClass.MEDIUM]: "dolphin-2.9-llama3-70b-gguf",
+            [ModelClass.LARGE]: "dolphin-2.9-llama3-70b-gguf",
+            [ModelClass.EMBEDDING]: "dolphin-2.9-llama3-70b-gguf", // If you support embeddings
         },
     },
 };

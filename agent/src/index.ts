@@ -275,6 +275,11 @@ export function getTokenForProvider(
                 character.settings?.secrets?.HYPERBOLIC_API_KEY ||
                 settings.HYPERBOLIC_API_KEY
             );
+        case ModelProviderName.WINE:
+            return (
+                character.settings?.secrets?.WINE_API_KEY ||
+                settings.WINE_API_KEY
+            );
     }
 }
 

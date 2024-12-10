@@ -206,6 +206,7 @@ export type Models = {
     [ModelProviderName.ALI_BAILIAN]: Model;
     [ModelProviderName.VOLENGINE]: Model;
     [ModelProviderName.HYPERBOLIC]: Model;
+    [ModelProviderName.WINE] : Model;
 };
 
 /**
@@ -232,6 +233,7 @@ export enum ModelProviderName {
     ALI_BAILIAN = "ali_bailian",
     VOLENGINE = "volengine",
     HYPERBOLIC = "hyperbolic",
+    WINE = "wine",
 }
 
 /**
